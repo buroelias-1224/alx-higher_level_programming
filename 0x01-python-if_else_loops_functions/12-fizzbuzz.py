@@ -1,12 +1,12 @@
-#!/usr/bin/env python3
-import sys
-
-sys.path.append('../')
-remove_char_at = __import__('101-remove_char_at').remove_char_at
-
-print(remove_char_at("Holberton School", 3))
-print(remove_char_at("Chicago", 2))
-print(remove_char_at("C is fun!", 0))
-print(remove_char_at("School", 10))
-print(remove_char_at("Python", -2))
+#!/usr/bin/python3
+def fizzbuzz():
+    for i in (range(1, 101)):
+        if i % 3 == 0 and i % 5 == 0:
+            print("FizzBuzz", end=" ")
+        elif i % 3 == 0:
+            print("Fizz", end=" ")
+        elif i % 5 == 0:
+            print("Buzz", end=" ")
+        else:
+            print("{}".format(i), end=" ")
           
