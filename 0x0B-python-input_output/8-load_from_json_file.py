@@ -1,12 +1,9 @@
 #!/usr/bin/python3
 """
-Contains the "load_from_json_file" function
+Module to return a dictionary description for JSON serialization
 """
 
-import json
 
-
-def load_from_json_file(filename):
-    """creates an Object from a "JSON file" """
-    with open(filename, 'r', encoding='utf-8') as f:
-        return json.load(f)
+def class_to_json(obj):
+    """Return the dictionary, is equivalent to JSON serialization"""
+    return obj.__dict__
