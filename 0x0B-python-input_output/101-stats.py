@@ -1,46 +1,52 @@
 #!/usr/bin/python3
-
 import sys
 
 
-if __name__ == "__main__":
+def print_info():
+    print('File size: {:d}'.format(file_size))
 
-    stats = {'200': 0, '301': 0, '400': 0, '401': 0, '403': 0, '404': 0,
-             '405': 0, '500': 0}
+    for scode, code_times in sorted(status_codes.items()):
+        if code_times > 0:
+            print('{}: {:d}'.format(scode, code_times))
 
-    count = 0
-    filetotal = 0
 
-    try:
-        for line in sys.stdin:
+status_codes = {
+    '200': 0,
+    '301': 0,
+    '400': 0,
+    '401': 0,
+    '403': 0,
+    '404': 0,
+    '405': 0,
+    '500': 0
+}
 
-            a = line.split()
+lc = 0
+file_size = 0
 
-            if len(a) < 2:
-                continue
+try:
+    for line in sys.stdin:
+        if lc != 0 and lc % 10 == 0:
+            print_info()
 
-            filetotal += int(a[-1])
+        pieces = line.split()
 
-            if a[-2] in stats.keys():
-                stats[a[-2]] += 1
+        try:
+            status = int(pieces[-2])
 
-            count += 1
+            if str(status) in status_codes.keys():
+                status_codes[str(status)] += 1
+        except:
+            pass
 
-            if count % 10 == 0:
-                print("File size: {}".format(filetotal))
+        try:
+            file_size += int(pieces[-1])
+        except:
+            pass
 
-                for k, v in sorted(stats.items()):
+        lc += 1
 
-                    if v > 0:
-                        print("{}: {}".format(k, v))
-
-        print("File size: {}".format(filetotal))
-        for k, v in sorted(stats.items()):
-            if v > 0:
-                print("{}: {}".format(k, v))
-
-    except KeyboardInterrupt:
-        print("File size: {}".format(filetotal))
-        for k, v in sorted(stats.items()):
-            if v > 0:
-                print("{}: {}".format(k, v))
+    print_info()
+except KeyboardInterrupt:
+    print_info()
+    raise
