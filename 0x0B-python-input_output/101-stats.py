@@ -1,44 +1,46 @@
 #!/usr/bin/python3
-'''task 14 module'''
+
+import sys
 
 
-from sys import stdin
+if __name__ == "__main__":
 
+    stats = {'200': 0, '301': 0, '400': 0, '401': 0, '403': 0, '404': 0,
+             '405': 0, '500': 0}
 
-status_codes = {
-        '200': 0,
-        '301': 0,
-        '400': 0,
-        '401': 0,
-        '403': 0,
-        '404': 0,
-        '405': 0,
-        '500': 0
-        }
+    count = 0
+    filetotal = 0
 
-total_size = i = 0
+    try:
+        for line in sys.stdin:
 
+            a = line.split()
 
-def printer():
-    '''this function prints the statistics'''
-    print(f'File size: {total_size}')
-    for key, value in sorted(status_codes.items()):
-        if value > 0:
-            print('{:s}: {:d}'.format(key, value))
+            if len(a) < 2:
+                continue
 
+            filetotal += int(a[-1])
 
-try:
-    for line in stdin:
-        splitted_line = line.split()
-        if len(splitted_line) >= 2:
-            status = splitted_line[-2]
-            total_size += int(splitted_line[-1])
-            if status in status_codes:
-                status_codes[status] += 1
-        i += 1
+            if a[-2] in stats.keys():
+                stats[a[-2]] += 1
 
-        if i % 10 == 0:
-            printer()
-    printer()
-except KeyboardInterrupt as e:
-    printer()
+            count += 1
+
+            if count % 10 == 0:
+                print("File size: {}".format(filetotal))
+
+                for k, v in sorted(stats.items()):
+
+                    if v > 0:
+                        print("{}: {}".format(k, v))
+
+        print("File size: {}".format(filetotal))
+        for k, v in sorted(stats.items()):
+            if v > 0:
+                print("{}: {}".format(k, v))
+
+    except KeyboardInterrupt:
+        print("File size: {}".format(filetotal))
+        for k, v in sorted(stats.items()):
+            if v > 0:
+                print("{}: {}".format(k, v))
